@@ -24,12 +24,12 @@ def coverImage(reportData, lookup=None):
     fig, ax = plt.subplots(dpi=300, figsize=(8, 8))
     plt.axis('off')
     if is_tall:
-        pad = (bounds_height-bounds_width) * 0.05
+        pad = 10
         diff = (bounds_height-bounds_width) / 2
         plt.xlim(bounds[0]-diff-pad, bounds[2]+diff+pad)
         plt.ylim(bounds[1]-pad, bounds[3]+pad)
     else:
-        pad = (bounds_width-bounds_height) * 0.05
+        pad = 10
         diff = (bounds_width-bounds_height) / 2
         plt.ylim(bounds[1]-diff-pad, bounds[3]+diff+pad)
         plt.xlim(bounds[0]-pad, bounds[2]+pad)
