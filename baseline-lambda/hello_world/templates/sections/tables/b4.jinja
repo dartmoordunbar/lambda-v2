@@ -1,0 +1,50 @@
+{%if tableB4 %}
+{% set message = 'Table ' +  gettablenumber('new') + '.' %}
+
+{{label(message,'Estimated contribution of vegetation in your chosen report area to flood risk reduction (avoided surface runoff from rainfall)')}}
+      <table style="width:100%">
+        <tr class="header">
+          <th>Landcover</th>
+          <th>Area (ha)</th>
+          <th>Total (m³ surface runoff avoided/yr)</th>
+          <th>% of total</th>
+          <th>Average per hectare (m³ surface runoff avoided/ha/yr)</th>
+        </tr>
+        {% for item in tableB4['floodprevention'] %}
+        <tr>
+          <td>
+          {{item.name}}
+          </td>
+          <td>
+          {{item.area | processNumber}}
+          </td>
+          <td>
+          {{item.total | processNumber}}
+          </td>
+          <td>
+          {{item.percent | processNumber}}
+          </td>
+          <td>
+          {{item.avg | processNumber}}
+          </td>
+        </tr>
+        {% endfor %}
+        <tr class="subheader">
+          <td class="subheader">
+          Total
+          </td>
+          <td class="subheader">
+            {{tableB4['floodtotal'].area | processNumber}}
+          </td>
+          <td class="subheader">
+            {{tableB4['floodtotal'].tonnes | processNumber}}
+          </td>
+          <td class="subheader">
+            {{tableB4['floodtotal'].percent | processNumber}}
+          </td>
+          <td class="subheader">
+            {{tableB4['floodtotal'].average | processNumber}}
+          </td>
+        </tr>
+      </table>
+{%endif%}

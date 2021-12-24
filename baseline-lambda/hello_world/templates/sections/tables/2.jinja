@@ -1,0 +1,133 @@
+
+<section>
+  <table style="width:100%">
+  {%if table2cstor %}
+    <tr class="header">
+      <th>Ecosystem service flow</th>
+      <th>Total</th>
+      <th>Average</th>
+    </tr>
+    <tr class="subheader">
+      <td class="subheader">
+        {{table2cstor['carbonstoragetotal']['name']}}
+      </td>
+      <td>
+        {{table2cstor['carbonstoragetotal']['total'] | round | processNumber}}<br/><span class="unitleft">tCO&#8322;e</span>
+      </td>
+      <td>
+        {{table2cstor['carbonstoragetotal']['average'] | round | processNumber}}<br/><span class="unitleft">tCO&#8322;e/ha</span>
+      </td>
+    </tr>
+    {% for item in table2cstor['carbonstorage'] %}
+    <tr>
+      <td>{{item.name}}</td>
+      <td class="">{{item.total | round | processNumber}}<br/><span class="unitleft">tCO&#8322;e</span></td>
+      <td class="">{{item.average | round | processNumber}}<br/><span class="unitleft">tCO&#8322;e/ha</span></td>
+    </tr>
+    {% endfor %}
+  {%endif%}
+
+
+
+  {%if table2cseq %}
+    <tr class="subheader">
+      <td class="subheader">
+        {{table2cseq['carbonseqtotal']['name']}}
+      </td>
+      <td>
+        {{table2cseq['carbonseqtotal']['total'] | round | processNumber}}<br/><span class="unitleft">tCO&#8322;e/yr</span> 
+      </td>
+      <td>
+        {{table2cseq['carbonseqtotal']['average'] | round | processNumber}}<br/><span class="unitleft">tCO&#8322;e/ha/yr</span>
+      </td>
+    </tr>
+    {% for item in table2cseq['carbonseq'] %}
+      <tr>
+        <td>{{item.name}}</td>
+        <td class="">{{item.total | round | processNumber}}<br/><span class="unitleft">tCO&#8322;e/yr</span></td>
+        <td class="">{{item.average | round | processNumber}}<br/><span class="unitleft">tCO&#8322;e/ha/yr</span></td>
+      </tr>
+    {% endfor %}
+  {%endif%}
+
+  {%if table2emissions %}
+    <tr class="subheader">
+      <td class="">
+        Carbon sequestration in peatlands
+      </td>
+      <td>
+        {{table2emissions.total | processNumber }}<br/><span class="unitleft">tCO₂e/yr</span> 
+      </td>
+      <td>
+        {{table2emissions.avg | processNumber }}<br/><span class="unitleft">tCO₂e/ha/yr</span> 
+      </td>
+    </tr>
+  {% endif %}
+  {%if tableB3 %}
+    <tr class="subheader">
+      <td class="subheader">
+        Soil erosion prevention
+      </td>
+      <td>
+        {{tableB3['soiltotal'].tonnes | round | processNumber}}<br/><span class="unitleft">tonnes soil loss avoided/yr</span> 
+      </td>
+      <td>
+        {{tableB3['soiltotal'].average | round | processNumber}}<br/><span class="unitleft">tonnes soil loss avoided/ha/yr</span>
+      </td>
+    </tr>
+  {%endif%}
+  {%if tableB4 %}
+    <tr class="subheader">
+      <td class="subheader">
+        Flood risk reduction
+      </td>
+      <td>
+        {{tableB4['floodtotal'].tonnes | round | processNumber}}<br/><span class="unitleft">m&#179; runoff avoided/yr</span>  
+      </td>
+      <td>
+        {{tableB4['floodtotal'].average | round | processNumber}}<br/><span class="unitleft">m&#179; runoff avoided/ha/yr</span>
+      </td>
+    </tr>
+  {%endif%}
+  {%if tableB4 %}
+    <tr class="subheader">
+      <td class="subheader">
+        Recreation {% if visitor_text %}{{visitor_text}}{% endif %}
+      </td>
+      <td>
+        {{total_visitors | processNumber}}<br/><span class="unitleft">number of visits/yr</span> 
+      </td>
+      <td>
+        n/a
+      </td>
+    </tr>
+  {%endif%}
+  {%if tableB5 %}
+    <tr class="subheader">
+      <td class="subheader">
+        Important areas for supporting insect pollinators of crops
+      </td>
+      <td>
+        <span>{{tableB5['pollinationtotal'].area | round | processNumber}}</span><br/>
+        <span class="unitleft">ha</span> 
+      </td>
+      <td>
+        n/a
+      </td>
+    </tr>
+  {%endif%}
+  {%if tableB6 %}
+    <tr class="subheader">
+      <td class="subheader">
+        Important biodiversity habitats
+      </td>
+      <td>
+        {{tableB6['totals'].area | round | processNumber}}<br/><span class="unitleft">ha</span>  
+      </td>
+      <td>
+        n/a
+      </td>
+    </tr>
+{% endif %}
+</table>
+</section>

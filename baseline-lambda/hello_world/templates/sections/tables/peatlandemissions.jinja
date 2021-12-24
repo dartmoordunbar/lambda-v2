@@ -1,0 +1,21 @@
+
+<section>
+  {% set message = 'Table ' +  gettablenumber('new') + '.' %}
+  {{label(message,'Carbon sequestration in peatlands in the chosen report area')}}
+  <table style="width:100%">
+    <tr class="header">
+      <th>Peatland condition</th>
+      <th>Area (ha)</th>
+      <th>Total (tCO₂e/yr)</th>
+      <th>Average per hectare (tCO₂e/ha/yr)</th>
+    </tr>
+    {% for item in emissiontable %}
+    <tr>
+      <td>{{item.name}}</td>
+      <td class="">{{item.area | processNumber}}</td>
+      <td class="">{{item.total | processNumber }}</td>
+      <td class="">{{item.avg | processNumber }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</section>

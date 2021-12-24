@@ -1,0 +1,20 @@
+{%if table1 %}
+<section>
+<table style="width:100%">
+        <tr class="header">
+          <th>Landcover</th>
+          <th>Area</th>
+        </tr>
+        {% for item in table1['landcover'] %}
+        <tr>  
+          <td>{{item.name}}</td>
+          <td>{{item.amount | processNumber}}<span class="unit">ha</span></td>
+        </tr>
+        {% endfor %}
+        <tr class="subheader">
+          <td class="subheader">Total Area</td>
+          <td class="subheader">{{table1['landcover_total_area'] | processNumber}}<span class="unit">ha</span></td>
+        </tr>
+</table>
+</section>
+{%endif%}

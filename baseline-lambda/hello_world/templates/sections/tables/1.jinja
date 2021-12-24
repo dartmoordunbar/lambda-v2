@@ -1,0 +1,60 @@
+{%if table1 %}
+<section>
+  <table style="width:100%">
+    <tr class="header">
+      <th>Asset</th>
+      <th>Quantity</th>
+    </tr>
+    <tr class="subheader">
+      <td class="subheader" colspan="2">
+        Landcover
+      </td>
+    </tr>
+    {% for item in table1['landcover'] %}
+    <tr>
+      <td>{{item.name}}</td>
+      <td class="">{{item.amount | processNumber}}<span class="unit">ha</span></td>
+    </tr>
+    {% endfor %}
+    <tr>
+      <td class="subheader" colspan="2">
+        Water
+      </td>
+    </tr>
+    {% for item in table1['water'] %}
+      {%if item %}
+      <tr>
+        <td>{{item.name}}</td>
+        <td>{{item.amount | processNumber}}<span class="unit">ha</span></td>
+      </tr>
+      {%else%}
+      <tr>
+        <td colspan="2">No data</td>
+      </tr>
+    {%endif%}
+    {% endfor %}
+    <tr>
+      <td class="subheader" colspan="2">
+        Topography
+      </td>
+    </tr>
+    {% for item in table1['topography'] %}
+    <tr>
+      <td>{{item.name}}</td>
+      <td>{{item.amount | processNumber}} <span class="unit">{{item.unit}}</span></td>
+    </tr>
+    {% endfor %}
+    <tr class="subheader">
+      <td class="subheader" colspan="2">
+        Soils
+      </td>
+    </tr>
+    {% for item in table1['soil'] %}
+    <tr>
+      <td>{{item.name}}</td>
+      <td class="">{{item.amount | processNumber}}<span class="unit">ha</span></td>
+    </tr>
+    {% endfor %}
+  </table>
+</section>
+{% endif %}

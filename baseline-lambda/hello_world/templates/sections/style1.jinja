@@ -1,0 +1,192 @@
+<style>
+@charset "UTF-8";
+@font-face {
+  font-family: 'barlowbold';
+  src: url('../fonts/Barlow-Bold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'barlow';
+  src: url('../fonts/Barlow-Regular.ttf');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'barlowlight';
+  src: url('../fonts/Barlow-Light.ttf');
+  font-weight: normal;
+  font-style: normal;
+
+}
+ul.toc {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+
+}
+ul.toc li {
+  margin-top: .25em;
+ }
+ ul.toc a{
+  text-decoration: none;
+  color: #393939;
+ }
+ .toctext::before{
+  content: target-text(attr(href));
+ }
+ .tocpagenr {
+  float:right;
+ }
+ .tocpagenr::after {
+  content: target-counter(attr(href), page);
+ }
+
+@page {
+  size: A4;
+  @top-right {
+    content: none; 
+  } 
+  
+  @bottom-right {
+    font-family: 'barlow';
+    content: "Page " counter(page) " of " counter(pages);
+  }
+}
+
+@page :first {
+  background: url("/tmp/cover.jpg") no-repeat center;
+  background-size: cover;
+  margin: 0; 
+  @bottom-right {
+      content: '';
+  }
+}
+
+
+
+@page horizontal { 
+    size: A4 landscape; 
+}
+html {
+  font-size: 16px;
+  font-family: 'barlow';
+  color: #393939;
+}
+.fullwidth {
+  width: 100%;
+}
+.number {
+    font-family: "barlow";
+}
+.unit {
+    float: right;
+}
+p {
+  color: #393939;
+}
+h1, h2, h3, h4 {
+  color:#01487E;
+}
+
+h1 {
+  string-set: chapterstring content();
+}
+h2 {
+  string-set: subchapterstring content();
+}
+table {
+  margin-bottom: 2em;
+  width: 100%;
+  font-size: 14px;
+}
+.unitleft {
+  clear:both;
+  display: block;
+  float: left;
+}
+.reporttitle {
+  font-family: 'barlowlight';
+  color: #393939;
+  font-size: 3em;
+}
+.reportdate {
+  color: #393939;
+  font-family: 'barlowlight' !important;
+  font-weight: 100;
+}
+.map {
+  width: 100%;
+  height: auto;
+}
+.maplandscape {
+  max-height: 70%;
+  width: 100%
+}
+#logo {
+  position: relative;
+  width: 300px;
+}
+strong {
+  font-family: 'barlowbold' !important;
+}
+
+th {
+  background-color:#BADA55;
+  color:black;
+  font-size: 1.2em;
+  padding: 4px;
+}
+
+section.landscape {
+  page: horizontal
+}
+.column {
+  width: 50%;
+  float: left;
+}
+.subheader {
+  background-color:#ccdd93;
+  font-weight: bold;
+  padding: 4px;
+}
+.twentypc {
+  width: 20%;
+}
+td {
+  background-color: rgb(241, 241, 241);
+  padding: 4px;
+}
+
+img {
+  margin: 0;
+  padding: 0;
+}
+.label {
+  margin-top: 0;
+  font-size: 12px;
+}
+#logobox {
+  position: absolute;
+  width: 100%;
+  padding: 5%;
+  left: 0;
+  top: 0;
+  background-color: white;
+}
+#titlebox {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  padding: 5%;
+  background-color: white;
+}
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+</style>

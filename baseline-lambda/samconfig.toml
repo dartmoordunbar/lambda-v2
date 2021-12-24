@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "baseline-v2"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1bpheai02yfee"
+s3_prefix = "baseline-v2"
+region = "eu-west-1"
+capabilities = "CAPABILITY_IAM"
+image_repositories = ["HelloWorldFunction=676001845827.dkr.ecr.eu-west-1.amazonaws.com/baselinev25a376059/helloworldfunction19d43fc4repo"]

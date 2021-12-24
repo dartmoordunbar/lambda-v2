@@ -1,0 +1,15 @@
+requests
+rasterio[s3]
+numpy
+jinja2
+contextily
+matplotlib
+boto3
+shapely
+pyproj
+geopandas
+matplotlib_scalebar
+python_dotenv
+weasyprint===52.5
+psycopg2-binary
+pydrive

@@ -1,0 +1,102 @@
+<section>
+    <p style="page-break-before: always"></p>
+    <h2 id="chapter3">Section {{ getsectionnumber('section') }}: Biodiversity metrics for Scottish Water</h2>
+    <p>Biodiversity is vital for ecosystem functioning and health. Improving biodiversity is a key national policy priority. The Scottish Water Biodiversity Metric presented here uses the methods used in the Defra Biodiversity Metric 3.0 in England as its basis and builds on this approach to provide an enhanced biodiversity metric.</p>
+    <p>In contrast to the Defra Metric, the four components of the Scottish Water metric can be calculated remotely, without the need for site visits.In addition, unlike the Defra Metric, which does not include species explicitly, the Scottish Water biodiversity metric includes a measure of suitability for rare and threatened species.</p>
+    <p>This metric will enable Scottish Water to measure and track biodiversity through time, as well as comparing between different individual sites. Sub-component scores and total biodiversity metric scores can be monitored, reported on and tracked over time.</p>
+</section>
+
+
+
+
+<section>
+    <h3>{{ getsectionnumber('subsection') }} Biodiversity metric - overall</h3>
+    <p>Map {{getmapnumber('new')}} displays the overall biodiversity metric score in your chosen report area. ThisThe metric is made up of a combination of four component scores: habitat distinctiveness; protected terrestrial species or Water Framework Directive (WFD) ecological condition for lakes; condition of SSSIs; and nature connectivity. The spatial distribution of each sub-metric (map) is set out below.</p>
+    <img class="map" src="/tmp/biocombined.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Combined biodiversity metric for Scottish Water')}}
+</section>
+
+
+
+
+<section>
+    <p style="page-break-before: always"></p>
+    <h3>{{ getsectionnumber('subsection') }} Protected species - submetric</h3>
+    <p>Map {{getmapnumber('new')}} displays the number of rare, threatened and vulnerable species for which the habitat is suitable. Our approach uses species distribution modelling for an agreed list of rare, threatened and endangered terrestrial species (see Appendix 5), accounting for environmental variables such as climate, elevation, soils and habitat types. Results indicate the number of important terrestrial species which could potentially occur on a site and its associated habitats, based on current species occurrence records. Waterbodies were excluded from this sub-metric. Instead, the ecological status of waterbodies from the Water Framework Directive provides an alternative (see below).</p>
+    <img class="map" src="/tmp/vulnspecies.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'The number of rare, threatened and vulnerable species for which the habitat is suitable.')}}
+</section>
+
+
+
+
+<section>
+    <p style="page-break-before: always"></p>
+    <h3>{{ getsectionnumber('subsection') }} Distinctiveness - submetric</h3>
+    <p>Map {{getmapnumber('new')}} displays the distinctiveness of different habitats in your chosen report area. Following a similar approach to the Defra Biodiversity Metric, habitats are assigned to distinctiveness bands based on the following criteria: total amount of remaining habitat in Scotland (a measure of rarity), proportion of habitat protected in SSSI (where the less that is protected in SSSIs, the higher the distinctiveness), UK Priority Habitat Status (Priority Habitats are classed as High or Very High distinctiveness), and European Red List Categories (Endangered or Critical European red List habitats are classified as Very High distinctiveness).</p>
+    <img class="map" src="/tmp/distinctiveness.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Habitat distinctiveness')}}
+</section>
+
+
+
+
+<section>
+    <p style="page-break-before: always"></p>
+    <h3>{{ getsectionnumber('subsection') }} Condition of SSSIs - submetric</h3>
+    <p>Map {{getmapnumber('new')}} displays the condition of Sites of Special Scientific Interest (SSSIs) where these are present in your chosen report area. SSSIs designated for geological reasons were excluded from the biodiversity metric and are not shown on the map.</p>
+    <img class="map" src="/tmp/sssi.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Condition of SSSIs')}}
+</section>
+
+
+
+
+<section>
+    <p style="page-break-before: always"></p>
+    <h3>{{ getsectionnumber('subsection') }} Nature connectivity - submetric</h3>
+    <p>Map {{getmapnumber('new')}} displays nature connectivity for biodiversity movement in your chosen report area. Our estimation is based on a model that identiﬁes patches of similar landcover types (for example, native woodlands or wetlands), calculates their area and then uses graph theory models to work out the overall connectivity of the landscape, as well as identifying the most important patches that act as stepping stones for species between other patches. Coastal habitats, urban areas, rock, rivers and lakes and agricultural land were not assessed for nature connectivity.</p>
+    <img class="map" src="/tmp/connectivity.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Nature connectivity')}}
+</section>
+
+
+
+
+<section>
+    <p style="page-break-before: always"></p>
+    <h3>{{ getsectionnumber('subsection') }} Water quality of Lochs and Lakes - submetric</h3>
+    <p>Map {{getmapnumber('new')}} displays the Water Framework Directive (WFD) ecological score for lakes. The WFD Ecological Status is made up of measures of the biological elements (including fish, macro-invertebrates, macrophytes and diatoms) and supporting elements (such as chemical water quality indicators and pollutants).</p>
+    <img class="map" src="/tmp/sw-lochwaterquality.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Nature connectivity')}}
+</section>
+
+
+
+
+
+
+
+<section>
+    <p style="page-break-before: always"></p>
+    <h3>{{ getsectionnumber('subsection') }} DEFRA Metric 3.0 - Indicative Biodiversity Units</h3>
+    <p>The Defra Biodiversity Metric 3.0 is a site-level habitat scoring method designed for England that determines the biodiversity potential of a site using a series of indices (habitat area, habitat distinctiveness, habitat condition and strategic significance). A full assessment would need an ecological field survey , which was beyond the scope of this project. Instead, we have applied an adapted version of the tool that can be assessed using desk-based data to indicate biodiversity units.</p>
+    <img class="map" src="/tmp/deframetric.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Indicative biodiversity units using Defra Biodiversity Metric 3.0')}}
+</section>
+
+<section>
+    <p style="page-break-before: always"></p>
+    <h3>{{ getsectionnumber('subsection') }} Water quality</h3>
+    <p>Water quality</p>
+    <img class="map" src="/tmp/scotwaterquality.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Water quality')}}
+</section>

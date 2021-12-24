@@ -1,0 +1,8 @@
+<section>
+    <h3>{{ getsectionnumber('subsection') }} Forest, woodland, tree and hedge composition (height)</h3>
+    <p>Map {{getmapnumber('new')}} shows the height of forest, woodlands, trees and hedges as obtained from aerial photography[3] in your chosen
+      report area.</p>
+    <img class="map" src="/tmp/canopyheight.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message, 'Height of forest, woodland, trees and hedges (metres)')}}
+  </section>

@@ -1,0 +1,416 @@
+<!-- JINJA MACROS -->
+{% set sectionnumber = namespace(value=0) %}
+{% set subsectionnumber = namespace(value=0) %}
+{% set subsubsectionnumber = namespace(value=0) %}
+{% set mapnumber = namespace(value=0) %}
+{% set tablenumber = namespace(value=0) %}
+{% set appendixnumber = namespace(value=0) %}
+
+
+
+{% macro getsectionnumber(type) -%}
+  {% if type == 'section' %}
+    {% set subsectionnumber.value = 0 %}
+    {% set sectionnumber.value = sectionnumber.value + 1 %}
+    {{ sectionnumber.value }}
+  {% endif %}    
+  {% if type == 'subsection' %}
+    {% set subsubsectionnumber.value = 0 %}
+    {% set subsectionnumber.value = subsectionnumber.value + 1 %}
+    {{ sectionnumber.value }}.{{ subsectionnumber.value }}
+  {% endif %}
+  {% if type == 'subsubsection' %}
+    {% set subsubsectionnumber.value = subsubsectionnumber.value + 1 %}
+    {{ sectionnumber.value }}.{{ subsectionnumber.value }}.{{ subsubsectionnumber.value }}
+  {% endif %}
+{% endmacro %}
+
+{% macro getmapnumber(type) -%}
+  {% if type == 'new' %}
+    {% set mapnumber.value = mapnumber.value + 1 %}
+    {{ mapnumber.value }}
+  {% endif %}    
+  {% if type == 'current' %}
+    {{ mapnumber.value }}
+  {% endif %}
+{% endmacro %}
+
+{% macro gettablenumber(type) -%}
+  {% if type == 'new' %}
+    {% set tablenumber.value = tablenumber.value + 1 %}
+    {{ tablenumber.value }}
+  {% endif %}    
+  {% if type == 'current' %}
+    {{ tablenumber.value }}
+  {% endif %}
+{% endmacro %}
+
+
+{% macro getappendixnumber() -%}
+  {% set appendixnumber.value = appendixnumber.value + 1 %}
+  {{ appendixnumber.value }}
+{% endmacro %}
+
+
+{% macro label(bold, text) -%}
+  <div class="label"><strong>{{bold}} </strong>{{text}}</div>
+{%- endmacro %} 
+
+<!-- REPORT TEMPLATE -->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href="report.css" rel="stylesheet">
+  <title>Natural Capital Research Baseline Assessment</title>
+  <meta name="description" content="Baseline Report">
+  {% include 'sections/style1.jinja' %}
+</head>
+<body>
+  
+   
+  {%include 'sections/cover.jinja'%}
+  <p style="page-break-before: always"></p>
+  
+
+
+    
+  {%include 'sections/about.jinja'%}
+  <p style="page-break-before: always"></p>
+  
+
+
+  {%include 'sections/disclaimer.jinja'%}
+  <p style="page-break-before: always"></p>
+ 
+
+
+
+  {% include 'sections/toc.jinja'%}
+  <p style="page-break-before: always"></p>
+  
+
+
+
+  {%include 'sections/summary.jinja'%}
+  <p style="page-break-before: always"></p>
+  
+
+
+  <section>
+    <h1>Estimated natural capital assets</h1>
+    {% include 'sections/tables/1.jinja' %}
+  </section>
+  <p style="page-break-before: always"></p> 
+ 
+
+
+  <section>
+    <h1>Estimated natural capital flows</h1>
+    {% include 'sections/tables/2.jinja' %}
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+
+  <section>
+    <h1>Heatmap of combined ecosytem service flows</h1>
+    <p>A second key element of the report is a summary heatmap. By showing where you have the largest concentrations of
+      ecosystem service flows, it provides key data for assessing where to concentrate enhancement efforts and how to
+      optimise your natural capital development strategy.</p>
+    <img class="map" src="/tmp/heatmap.jpg" />
+    <p>The following pages provide you with a breakdown of the individual underlying factors that make up your baseline
+      assessment. Each of the following sections present the full data behind those two summary reports above. Each
+      section of the report and each map gives you a full set of proof points and measurements, allowing you to present
+      your environmental record, confidently and credibly, to government, stakeholders, markets, investors,
+      special-interest groups and others.</p>
+    <p>They also provide you with the platform for your next steps on enhancing and improving your natural capital
+      assets. If you would like further guidance on this, or more information on this report, we would be very pleased
+      to help. You can contact us at info@natcapresearch.com.</p>
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+
+  {%include 'sections/introduction.jinja'%}
+  <p style="page-break-before: always"></p>
+  
+
+
+  {% include 'sections/studyarea.jinja'%}
+  <p style="page-break-before: always"></p>
+  
+
+
+
+  <section>
+    <h2 id="chapter1">Section {{ getsectionnumber('section') }}: Natural capital stocks</h2>
+    <p>Natural capital stocks can be simply described as the aspects of nature (e.g. species, habitats, communities
+      etc.) that provide key ecosystem services underpinning important public goods or benefits (see Figure. 1).</p>
+    <p>Within the study area, the extent, quality and location of natural capital stocks were determined and are
+      described below.</p>
+    <h3>{{ getsectionnumber('subsection') }} Landcover of Chosen Study Area</h3>
+    <img class="map" src="/tmp/landcover.jpg" />
+    {% set message = 'Map ' +  getmapnumber('new') + '.' %}
+    {{label(message, 'The aboveground natural capital assets as broad landcover classes in your chosen report area. See Section 6 for data sources')}}
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+  <section>
+    <h3>{{ getsectionnumber('subsection') }} Forest, woodland, tree and hedge composition (height)</h3>
+    <p>Map {{getmapnumber('new')}} shows the height of forest, woodlands, trees and hedges as obtained from aerial photography in your chosen report area. Data supplied by Bluesky Ltd.</p>
+    <img class="map" src="/tmp/canopyheight.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message, 'Height of forest, woodland, trees and hedges (metres)')}}
+  </section>
+  <p style="page-break-before: always"></p>
+
+  
+
+  <section>
+    <h3>{{ getsectionnumber('subsection') }} Elevation</h3>
+    <p>The following two maps show the topographical variation across your chosen report area. These maps are from 25m elevation data, from which we calculate slope.</p>
+    <img class="map" src="/tmp/elevation.jpg" />
+    {% set message = 'Map ' +  getmapnumber('new') + '.' %}
+    {{label(message,'Elevation (metres above sea level)')}}
+  </section>
+  <p style="page-break-before: always"></p>
+
+
+
+
+  <section>
+    <h3>{{ getsectionnumber('subsection') }} Slope</h3>
+    <img class="map" src="/tmp/slope.jpg" />
+    {% set message = 'Map ' +  getmapnumber('new') + '.' %}
+    {{label(message,'Slope (%)')}}
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+
+
+
+  <section>
+    <h3>{{ getsectionnumber('subsection') }} Water and wetlands</h3>
+    <p>Map {{getmapnumber('new')}} shows the location of surface waterbodies, wetlands, rivers and streams in your chosen report area.</p>
+    <img class="map" src="/tmp/waterwetlands.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Approximate location of water, wetlands, rivers and streams. See the appendices for data sources')}}
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+
+  <section>
+    <h3>{{ getsectionnumber('subsection') }} Soil type</h3>
+    <p>Map {{getmapnumber('new')}} illustrates the spatial distribution of the different soil types in your chosen report area.</p>
+    <img class="map" src="/tmp/soiltypes.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Soil types in your chosen report area. See Section 6 for data sources')}}
+  </section>
+  <p style="page-break-before: always"></p> 
+   
+  
+  <section>
+    <h2 id="chapter2">Section {{ getsectionnumber('section') }}: Ecosystem service flows</h2>
+    <p>Natural capital services, or ecosystem service flows, are the services provided by natural capital assets, for example, woodlands (asset) and carbon sequestration (ecosystem service flow) (see Figure. 1).</p>
+    <p>Using the information obtained above relating to the distribution, quantity and quality of natural capital stocks (assets), we have modelled the spatial distribution of important ecosystem services (flows) in your chosen report area that are generated by these assets.</p>
+    <h3>{{ getsectionnumber('subsection') }} Carbon storage</h3>
+    <h4>{{ getsectionnumber('subsubsection') }} Carbon stored in trees in forests and woodlands</h4>
+    <p>Map {{getmapnumber('new')}} displays the carbon storage of trees in forests and woodlands in the chosen report area. Our estimates are based on a modelling approach that takes account of canopy height and biophysical data, including vegetation greenness from satellite data and estimations of woodland age and yield class. The carbon storage map is produced at 10m resolution and displays carbon density of vegetation in tonnes CO2e per hectare, accounting for both aboveground biomass and belowground living biomass (roots).</p>
+    <img class="map" src="/tmp/carbonstoragewoodlands.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Estimated storage of carbon in trees in forests and woodlands (tonnes CO2e per hectare)')}}
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+
+  <section>
+    <h4>{{ getsectionnumber('subsubsection') }} Carbon stored in trees and vegetation that lie outside of forests and woodlands</h4>
+    <p>Map {{getmapnumber('new')}} displays the estimated carbon that is stored by vegetation in hedgerows, parkland and single trees that lie outside of the forests and woodland areas in your chosen report area. Our estimates for trees and hedges are based on a modelling approach that takes account of canopy height and biophysical data, including vegetation greenness from satellite data and estimations of woodland age and yield class. For other vegetation, we use published literature on the carbon density of UK habitats. The resulting carbon storage maps are produced at 25 m resolution and display carbon density of vegetation in tonnes CO2e per hectare, accounting for both aboveground biomass and belowground living biomass (roots).</p>
+    <img class="map" src="/tmp/carbonstoragenonwoodlands.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Estimated storage of carbon in trees and vegetation outside of woodlands in your chosen report area (tonnes CO2e per hectare)')}}
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+  <section>
+    <h4>{{ getsectionnumber('subsubsection') }} Carbon storage in topsoil</h4>
+    <p>Map {{getmapnumber('new')}} displays the estimated belowground carbon storage in the topsoil (top 30 cm) of your chosen report area, in tonnes CO2e per hectare. See Section 6 for datasets.</p>
+    <img class="map" src="/tmp/carbonstoragetopsoil.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Estimated storage of carbon in the top 30 cm of soil (tonnes CO2e per hectare)')}}
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+
+  <section>
+    <h3>{{ getsectionnumber('subsection') }} Carbon sequestration</h3>
+    <h4>{{ getsectionnumber('subsubsection') }} Carbon sequestration by trees in forests and woodlands</h4>
+    <p>Map {{getmapnumber('new')}} displays the estimated rate of CO2 being sequestered (or emitted) from trees in forests and woodlands in your chosen report area. Our estimates are based on a modelling approach that takes account of canopy height and biophysical data, including vegetation greenness from satellite data and estimations of woodland age and yield class.</p>
+    <img class="map" src="/tmp/carbonseqwoodlands.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Estimated rate of carbon sequestration by trees within forests and woodlands (tonnes CO2e per hectare per year)')}}
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+  <section>
+    <h4>{{ getsectionnumber('subsubsection') }} Carbon sequestration by trees and vegetation that lie outside of forests and woodlands</h4>
+    <p>Map {{getmapnumber('new')}} displays the estimated carbon sequestered in hedgerows and single trees that lie outside of the forests and woodland areas in your chosen report area. Our estimates are based on a modelling approach that takes account of canopy height and biophysical data, including vegetation greenness from satellite data and estimations of woodland age and yield class. [To note: carbon sequestration into non-woody landcovers such as grasslands and heathlands was assumed to be nil].</p>
+    <img class="map" src="/tmp/carbonseqnonwoodlands.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Estimated rate of carbon sequestration by trees that lie outside of woodlands (tonnes CO2e per hectare per year)')}}
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+  <section>
+    <h3>{{ getsectionnumber('subsection') }} Soil erosion prevention</h3>
+    <p>Map {{getmapnumber('new')}} displays the areas in which the vegetation provides the greatest protection from soil erosion during rainfall events in your chosen report area.</p>
+    <img class="map" src="/tmp/soilerosion.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Estimated soil erosion protection provided by different vegetation types in the chosen report area (tonnes soil loss avoided per hectare per year)')}}
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+
+  <section>
+    <h3>{{ getsectionnumber('subsection') }} Flood risk reduction</h3>
+    <p>Map {{getmapnumber('new')}} displays areas of land in the chosen report area where the vegetation is important in reducing surface rainfall-runoff and thus reducing the downstream flood risk during a storm event. Our estimations are calculated using a catchment approach, and we model water flows using the semi-distributed hydrological model SWAT. SWAT takes account of soil properties, information on landcover and land management, topography (including slope), and meteorological data (including rainfall). The resulting map displays m&#179; of avoided surface runoff per hectare per year at a 25m resolution.</p>
+    <img class="map" src="/tmp/floodrisk.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Areas of the landscape where vegetation is estimated to be important for flood risk reduction in your chosen report area (average m3 surface runoff avoided per hectare per year)')}}
+  </section>
+  <p style="page-break-before: always"></p>
+
+ 
+
+
+  <section>
+    <h3>{{ getsectionnumber('subsection') }} Recreation</h3>
+    <p>Map {{getmapnumber('new')}} displays important areas for recreation in your chosen report area. Our estimations are based on a model that aggregates social media records (displaying parts of the landscape most frequently photographed or visited and uploaded onto social media platforms) with environmental variables (such as landcover, viewshed and presence of trails) and other data (such as access, amenities and travel times from towns and cities). The data and models used come from a variety of sources. See Section 6 for details.</p>
+    <img class="map" src="/tmp/recreation.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {% set message2 = 'Important areas for recreation (' +  total_visitors | processNumber | string + ' estimated number of visits per year)' %}
+    {{label(message, message2)}}
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+
+  <section>
+    <h3>{{ getsectionnumber('subsection') }} Pollination</h3>
+    <p>Map {{getmapnumber('new')}} displays parts of the landscape in your chosen report area that are good for insect pollinators of crops. These include, for example, areas with a high diversity of nectar plants or suitable nesting sites that are in close proximity to crops that require pollination services.</p>
+    <img class="map" src="/tmp/pollination.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Estimated distribution of landcover important for pollination services (metric indicating relative importance of landcover in that location, from low to high)')}}
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+
+  <section>
+    <h3>{{ getsectionnumber('subsection') }} Important biodiversity habitats</h3>
+    <p>Map {{getmapnumber('new')}} displays important areas for wildlife or conservation in your chosen report area. Our estimations are determined by combining information on designated protected areas and conservation sites with data for habitats that are recognised as important for biodiversity (priority habitats and ancient woodlands). We group these areas by their designation, either as ‘internationally protected’, ‘nationally protected’, ‘locally protected’ or ‘priority habitat or ancient woodlands’.</p>
+    <img class="map" src="/tmp/biodiversity.jpg" /> 
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Important habitats for biodiversity')}}
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+
+
+  <section>
+    <h3>{{ getsectionnumber('subsection') }} Nature networks</h3>
+    <p>Map {{getmapnumber('new')}} displays important patches of native woodland habitat for biodiversity connectivity and movement in your chosen report area. Our estimation is based on a model that identifies patches of similar landcover types (for example, native woodlands), calculates their area and then uses graph theory models to work out the overall connectivity of the landscape, as well as identifying the most important patches that act as stepping stones for species between other patches. The map also display hedgerows; although the hedgerows are not included in the modelling, they are displayed to show the connectivity of land between woodland patches.</p>
+    <img class="map" src="/tmp/naturenetworks.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Important native woodland patches for the movement of biodiversity across landscapes (metric indicating contribution of patch to overall landscape connectivity, from low to high). The map also displays hedgerows in your chosen report area. The individual importance of hedgerows is not modelled but these are displayed to show the connectivity of the land between woodland patches')}}
+  </section>
+  <p style="page-break-before: always"></p>
+  
+
+
+
+
+  <section>
+      <h2 id="chapter3">Section {{ getsectionnumber('section') }}: Heatmap of combined ecosystem service flows</h2>
+      <p>Map {{getmapnumber('new')}} displays a heatmap demonstrating the parts of the landscape in your chosen report area which provide the largest quantity of ecosystem service flows. This was created by summing the standardised output maps from the ecosystem services described above to create a final map of the distribution of multiple service provision. The resulting map places equal weight on each of the service flows.</p>
+      <img class="map" src="/tmp/heatmap.jpg" />
+      {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+      {{label(message,'Hotspots in the provision of multiple ecosystem services for your chosen report area (metric indicating the flows from all estimated ecosystem services, from low to high)')}}
+  </section>
+  <p style="page-break-before: always"></p>
+ 
+ 
+
+
+
+  <section> 
+    <h2 id="chapter4">Section {{ getsectionnumber('section') }}: Baseline natural capital register of assets and ecosystem service flows</h2>
+    <h3>{{ getsectionnumber('subsection') }} Natural capital stocks (assets)</h3>
+    <p>Table {{gettablenumber('new')}} summarises the type and extent of different natural capital stocks in your chosen report area.</p>
+    {% set message = 'Table ' +  gettablenumber('current') + '.' %}
+    {{label(message,'Estimated natural capital stocks (assets) in your chosen report area')}}
+    {%include 'sections/tables/1.jinja'%}
+  </section>  
+  <p style="page-break-before: always"></p>
+  
+
+
+
+  <section>
+    <h3>{{ getsectionnumber('subsection') }} Ecosystem service flows</h3>
+    <p>Table {{gettablenumber('new')}} summarises the ecosystem service flows from the natural capital assets in your report area</p>
+    {% set message = 'Table ' +  gettablenumber('current') + '.' %}
+    {{label(message,'Estimated ecosystem service flows in your chosen report area')}}
+    {%include 'sections/tables/2.jinja'%}
+  </section>  <p style="page-break-before: always"></p>
+  
+
+
+  {%include 'sections/whatnext.jinja'%}
+  <p style="page-break-before: always"></p>
+  
+
+
+
+  {%include 'sections/appendixa.jinja'%}
+  <p style="page-break-before: always"></p> 
+  
+
+
+  {%include 'sections/appendixb.jinja'%}
+  <p style="page-break-before: always"></p> 
+
+
+
+  {%include 'sections/datasources.jinja'%}
+  <p style="page-break-before: always"></p>
+  
+  
+  {%include 'sections/references.jinja'%} 
+</body>
+</html>

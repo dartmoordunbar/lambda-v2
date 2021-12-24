@@ -1,0 +1,23 @@
+{% macro label(bold, text) -%}
+  <div class="label"><strong>{{bold}} </strong>{{text}}</div>
+{%- endmacro %} 
+
+
+{% set mapnumber = 0 %}
+{% set sectionnumber = 0 %}
+{% set subsectionnumber = 0 %}
+
+{% macro getmapnumber() -%}
+    {% set mapnumber = mapnumber + 1 %}
+    <span>{{ mapnumber }}</span>
+{%- endmacro %}
+
+{% macro getsectionnumber() -%}
+    {% set sectionnumber = sectionnumber + 1 %}
+    <span>{{ sectionnumber }}</span>
+{%- endmacro %}
+
+{% macro getsubsectionnumber() -%}
+    {% set subsectionnumber = subsectionnumber + 1 %}
+    <span>{{ sectionnumber }}.{{subsectionnumber}}</span>
+{%- endmacro %}

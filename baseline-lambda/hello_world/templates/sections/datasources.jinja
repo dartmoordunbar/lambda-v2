@@ -1,0 +1,173 @@
+<section>
+    <h1 id="chapter8">Appendix {{getappendixnumber()}}: Data sources</h1>
+    <h3>Stocks</h3>
+    <table>
+      <tr class="header">
+        <th>Input data</th>
+        <th>Extent</th>
+        <th>Citation</th>
+        <th>Licensing</th>
+      </tr>
+      <tr>
+        <td class="subheader" colspan=4>Landcover</tr>
+      </tr>
+      {% for item in data_sources['data_source_stocks']['data_source_1'] %}
+      <tr>
+        <td>{{item.input_data}}</td>
+        <td>{{item.extent}}</td>
+        <td>{{item.citation}}</td>
+        <td>{{item.licensing}}</td>
+      </tr>
+      {% endfor %} 
+      <tr>
+        <td class="subheader" colspan=4>Woodlands, trees and hedge composition</tr>
+      </tr>
+      {% for item in data_sources['data_source_stocks']['data_source_2'] %}
+      <tr>
+       <td>{{item.input_data}}</td>
+        <td>{{item.extent}}</td>
+        <td>{{item.citation}}</td>
+        <td>{{item.licensing}}</td>
+      </tr>
+      {% endfor %} 
+      <tr>
+        <td class="subheader" colspan=4>Topography</tr>
+      </tr>
+      {% for item in data_sources['data_source_stocks']['data_source_3'] %}
+      <tr>
+        <td>{{item.input_data}}</td>
+        <td>{{item.extent}}</td>
+        <td>{{item.citation}}</td>
+        <td>{{item.licensing}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td class="subheader" colspan=4>Water and wetlands</tr>
+      </tr>
+      {% for item in data_sources['data_source_stocks']['data_source_4'] %}
+      <tr>
+        <td>{{item.input_data}}</td>
+        <td>{{item.extent}}</td>
+        <td>{{item.citation}}</td>
+        <td>{{item.licensing}}</td>
+      </tr>
+      {% endfor %} 
+      <tr>
+        <td class="subheader" colspan=4>Soil type</tr>
+      </tr>
+      {% for item in data_sources['data_source_stocks']['data_source_5'] %}
+      <tr>
+        <td>{{item.input_data}}</td>
+        <td>{{item.extent}}</td>
+        <td>{{item.citation}}</td>
+        <td>{{item.licensing}}</td>
+      </tr>
+      {% endfor %} 
+    </table>
+  </section>
+  <p style="page-break-before: always"></p>
+  <!-- 
+
+    6 DATA SOURCES Services
+
+  -->
+  <section>
+    <h3>Services</h3>
+    <table>
+      <tr class="header">
+        <th>Input data</th>
+        <th>Extent</th>
+        <th>Citation</th>
+        <th>Licensing</th>
+      </tr>
+      <tr>
+        <td class="subheader" colspan=4>Carbon storage in vegetation and soils</tr>
+      </tr>
+      {% for item in data_sources['data_source_ecosystem']['data_source_1'] %}
+      <tr>
+        <td>{{item.input_data}}</td>
+        <td>{{item.extent}}</td>
+        <td>{{item.citation}}</td>
+        <td>{{item.licensing}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td class="subheader" colspan=4>Carbon sequestration in vegetation</tr>
+      </tr>
+      {% for item in data_sources['data_source_ecosystem']['data_source_2'] %}
+      <tr>
+        <td>{{item.input_data}}</td>
+        <td>{{item.extent}}</td>
+        <td>{{item.citation}}</td>
+        <td>{{item.licensing}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td class="subheader" colspan=4>Soil erosion prevention</tr>
+      </tr>
+      {% for item in data_sources['data_source_ecosystem']['data_source_3'] %}
+      <tr>
+        <td>{{item.input_data}}</td>
+        <td>{{item.extent}}</td>
+        <td>{{item.citation}}</td>
+        <td>{{item.licensing}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td class="subheader" colspan=4>Flood risk reduction</tr>
+      </tr>
+      {% for item in data_sources['data_source_ecosystem']['data_source_4'] %}
+      <tr>
+        <td>{{item.input_data}}</td>
+        <td>{{item.extent}}</td>
+        <td>{{item.citation}}</td>
+        <td>{{item.licensing}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td class="subheader" colspan=4>Important areas for supporting insect pollinators of crops</tr>
+      </tr>
+      {% for item in data_sources['data_source_ecosystem']['data_source_5'] %}
+      <tr>
+        <td>{{item.input_data}}</td>
+        <td>{{item.extent}}</td>
+        <td>{{item.citation}}</td>
+        <td>{{item.licensing}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td class="subheader" colspan=4>Important biodiversity habitats</tr>
+      </tr>
+      {% for item in data_sources['data_source_ecosystem']['data_source_6'] %}
+      <tr>
+        <td>{{item.input_data}}</td>
+        <td>{{item.extent}}</td>
+        <td>{{item.citation}}</td>
+        <td>{{item.licensing}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td class="subheader" colspan=4>Nature networks</tr>
+      </tr>
+      {% for item in data_sources['data_source_ecosystem']['data_source_7'] %}
+      <tr>
+        <td>{{item.input_data}}</td>
+        <td>{{item.extent}}</td>
+        <td>{{item.citation}}</td>
+        <td>{{item.licensing}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td class="subheader" colspan=4>Recreation</tr>
+      </tr>
+      {% for item in data_sources['data_source_ecosystem']['data_source_8'] %}
+      <tr>
+        <td>{{item.input_data}}</td>
+        <td>{{item.extent}}</td>
+        <td>{{item.citation}}</td>
+        <td>{{item.licensing}}</td>
+      </tr>
+      {% endfor %}
+      
+    </table>
+  </section>

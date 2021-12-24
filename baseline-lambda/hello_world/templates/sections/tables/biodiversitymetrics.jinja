@@ -1,0 +1,17 @@
+
+<section>
+  <table style="width:100%">
+    <tr class="header">
+      <th>Landcover</th>
+      <th>Area (ha)</th>
+      <th>Value (SW biodiversity units)</th>
+    </tr>
+    {% for item in biodiversitymetrics %}
+    <tr>
+      <td>{{item.name}}</td>
+      <td class="">{{item.area | round | processNumber}}</td>
+      <td class="">{{item.total | round | processNumber }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</section>

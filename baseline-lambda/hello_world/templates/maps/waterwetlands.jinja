@@ -1,0 +1,7 @@
+  <section>
+    <h3>{{ getsectionnumber('subsection') }} Water and wetlands</h3>
+    <p>Map {{getmapnumber('new')}} shows the location of surface waterbodies and wetlands based on data from the Ordnance Survey[5] in your chosen report area.</p>
+    <img class="map" src="/tmp/waterwetlands.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Approximate location of water and wetlands')}}
+  </section>

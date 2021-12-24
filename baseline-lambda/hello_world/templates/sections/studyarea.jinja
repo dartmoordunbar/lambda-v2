@@ -1,0 +1,8 @@
+  <section>
+    <h2>Report study area</h2>
+    <p>Your chosen area covers {{report_area | processNumber}} hectares ({{(report_area * 2.471) | processNumber}} acres). The data in this
+      report works to a resolution of 5m.</p>
+    <img class="map" src="/tmp/studyarea.jpg" />
+    {% set message = 'Map ' +  getmapnumber('new') + '.' %}
+    {{label(message, 'Report study area')}}
+  </section>

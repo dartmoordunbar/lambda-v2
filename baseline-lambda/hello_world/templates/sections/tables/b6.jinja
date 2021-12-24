@@ -1,0 +1,36 @@
+{%if tableB6%}
+  {% set message = 'Table ' +  gettablenumber('new') + '.' %}
+
+    {{label(message,'Areas important for biodiversity in the chosen report area')}}
+      <table style="width:100%">
+        <tr class="header">
+          <th>Area important for biodiversity</th>
+          <th>Area (ha)</th>
+          <th>% of your selected area</th>
+        </tr>
+        {% for item in tableB6['biodiversity'] %}
+        <tr>
+          <td>
+          {{item.name}}
+          </td>
+          <td>
+          {{item.area | processNumber}}
+          </td>
+          <td>
+          {{item.percent | processNumber}}
+          </td>
+        </tr>
+        {% endfor %}
+        <tr class="subheader">
+          <td class="subheader">
+          Overall
+          </td>
+          <td class="subheader">
+            {{tableB6['totals']['area'] | processNumber}}
+          </td>
+          <td class="subheader">
+            {{tableB6['totals']['percent'] | processNumber}}
+          </td>
+        </tr>
+      </table>
+    {%endif%}

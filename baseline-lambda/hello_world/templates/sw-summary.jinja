@@ -1,0 +1,121 @@
+<!-- JINJA MACROS -->
+{% set sectionnumber = namespace(value=0) %}
+{% set subsectionnumber = namespace(value=0) %}
+{% set subsubsectionnumber = namespace(value=0) %}
+{% set mapnumber = namespace(value=0) %}
+{% set tablenumber = namespace(value=0) %}
+{% set appendixnumber = namespace(value=0) %}
+
+
+
+{% macro getsectionnumber(type) -%}
+  {% if type == 'section' %}
+    {% set subsectionnumber.value = 0 %}
+    {% set sectionnumber.value = sectionnumber.value + 1 %}
+    {{ sectionnumber.value }}
+  {% endif %}    
+  {% if type == 'subsection' %}
+    {% set subsubsectionnumber.value = 0 %}
+    {% set subsectionnumber.value = subsectionnumber.value + 1 %}
+    {{ sectionnumber.value }}.{{ subsectionnumber.value }}
+  {% endif %}
+  {% if type == 'subsubsection' %}
+    {% set subsubsectionnumber.value = subsubsectionnumber.value + 1 %}
+    {{ sectionnumber.value }}.{{ subsectionnumber.value }}.{{ subsubsectionnumber.value }}
+  {% endif %}
+{% endmacro %}
+
+{% macro getmapnumber(type) -%}
+  {% if type == 'new' %}
+    {% set mapnumber.value = mapnumber.value + 1 %}
+    {{ mapnumber.value }}
+  {% endif %}    
+  {% if type == 'current' %}
+    {{ mapnumber.value }}
+  {% endif %}
+{% endmacro %}
+
+{% macro gettablenumber(type) -%}
+  {% if type == 'new' %}
+    {% set tablenumber.value = tablenumber.value + 1 %}
+    {{ tablenumber.value }}
+  {% endif %}    
+  {% if type == 'current' %}
+    {{ tablenumber.value }}
+  {% endif %}
+{% endmacro %}
+
+
+{% macro getappendixnumber() -%}
+  {% set appendixnumber.value = appendixnumber.value + 1 %}
+  {{ appendixnumber.value }}
+{% endmacro %}
+
+
+{% macro label(bold, text) -%}
+  <div class="label"><strong>{{bold}} </strong>{{text}}</div>
+{%- endmacro %} 
+
+<!-- REPORT TEMPLATE -->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href="report.css" rel="stylesheet">
+  <title>Natural Capital Research Baseline Assessment</title>
+  <meta name="description" content="Baseline Report">
+  {% include 'sections/style1.jinja' %}
+</head>
+<body>
+  
+   
+  {%include 'sections/cover.jinja'%}
+  <p style="page-break-before: always"></p>
+  
+ <section>
+  <table style="width:100%">
+    <tr class="header">
+      <th>Asset</th>
+      <th>Quantity</th>
+    </tr>
+    <tr class="subheader">
+      <td class="subheader" colspan="2">
+        Landcover
+      </td>
+    </tr>
+    {% for item in table1['landcover'] %}
+    <tr>
+      <td>{{item.name}}</td>
+      <td class="">{{item.amount | processNumber}}<span class="unit">ha</span></td>
+    </tr>
+    {% endfor %}
+    <tr>
+      <td class="subheader" colspan="2">
+        Water
+      </td>
+    </tr>
+    {% for item in table1['water'] %}
+      {%if item %}
+      <tr>
+        <td>{{item.name}}</td>
+        <td>{{item.amount | processNumber}}<span class="unit">ha</span></td>
+      </tr>
+      {%else%}
+      <tr>
+        <td colspan="2">No data</td>
+      </tr>
+    {%endif%}
+    {% endfor %}
+  </table>
+</section>
+
+  <section>
+    <h1>Landcover of chosen study area</h1>
+    <p>Map 1 shows the the aboveground natural capital assets for your chosen report area, grouped as broad landcover classes. The assets are mapped from numerous data sources - see Section 6 at the end of this report.
+    <img class="map" src="/tmp/landcover.jpg" />
+    {% set message = 'Map 1.' %}
+    {{label(message, 'The above-ground natural capital assets as broad landcover classes in your chosen report area')}}
+  </section>
+  
+</body>
+</html>

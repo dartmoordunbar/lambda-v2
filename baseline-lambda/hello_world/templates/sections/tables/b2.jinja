@@ -1,0 +1,68 @@
+{%if tableB2 %}
+    {% set message = 'Table ' +  gettablenumber('new') + '.' %}
+    {{label(message,'Estimated rates of carbon sequestration by different landcover types in your chosen report area')}}
+      <table style="width:100%">
+        <tr class="header">
+          <th>Landcover</th>
+          <th>Area (ha)</th>
+          <th>Total (tCO₂e/yr)</th>
+          <th>Average per hectare (tCO₂e/ha/yr)</th>
+        </tr>
+        <tr class="subheader">
+          <td class="subheader" colspan="4">
+          Trees in woodlands and forests
+          </td>
+        </tr>
+        {% for item in tableB2['carbseqwoodland'] %}
+        <tr>
+          <td>
+          {{item.name}}
+          </td>
+          <td>
+          {{item.area | processNumber}}
+          </td>
+          <td>
+          {{item.total | processNumber}}
+          </td>
+          <td>
+          {{item.avg | processNumber}}
+          </td>
+        </tr>
+        {% endfor %}
+        <tr class="subheader">
+          <td class="subheader" colspan="4">
+          Trees and vegetation outside woodlands
+          </td>
+        </tr>
+        {% for item in tableB2['carbseqnonwoodland'] %}
+        <tr>
+          <td>
+          {{item.name}}
+          </td>
+          <td>
+          {{item.area | processNumber}}
+          </td>
+          <td>
+          {{item.total | processNumber}}
+          </td>
+          <td>
+          {{item.avg | processNumber}}
+          </td>
+        </tr>
+        {% endfor %}
+        <tr class="subheader">
+          <td class="subheader">
+            Total for site
+          </td>
+          <td class="subheader">
+            {{tableB2['carbonseqtotal'].area | processNumber}}
+          </td>
+          <td class="subheader">
+            {{tableB2['carbonseqtotal'].tonnes | processNumber}}
+          </td>
+          <td class="subheader">
+            {{tableB2['carbonseqtotal'].average | processNumber}}
+          </td>
+        </tr>
+      </table>
+      {%endif%}

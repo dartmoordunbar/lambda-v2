@@ -1,0 +1,73 @@
+{%if tableB1 %}   
+{% set message = 'Table ' +  gettablenumber('new') + '.' %}
+{{label(message,'Carbon storage in trees in woodlands, trees outside woodlands and in vegetation and soils')}}
+      <table style="width:100%">
+        <tr class="header">
+          <th>Landcover</th>
+          <th>Area (ha)</th>
+          <th>Total (tCO₂e)</th>
+          <th>Average per hectare (tCO₂e/ha)</th>
+        </tr>
+        <tr class="subheader">
+          <td class="subheader" colspan="4">
+          Trees in woodlands and forests
+          </td>
+        </tr>
+        {% for item in tableB1['carbstorwoodland'] %}
+        <tr>
+          <td>
+          {{item.name}}
+          </td>
+          <td>
+          {{item.area  | processNumber}}
+          </td>
+          <td>
+          {{item.total  | processNumber}}
+          </td>
+          <td>
+          {{item.avg  | processNumber}}
+          </td>
+        </tr>
+        {% endfor %}
+        <tr class="subheader">
+          <td class="subheader" colspan="4">
+          Trees and vegetation outside woodlands
+          </td>
+        </tr>
+        {% for item in tableB1['carbstornonwoodland'] %}
+        <tr>
+          <td>
+          {{item.name}}
+          </td>
+          <td>
+          {{item.area  | processNumber}}
+          </td>
+          <td>
+          {{item.total  | processNumber}}
+          </td>
+          <td>
+          {{item.avg  | processNumber}}
+          </td>
+        </tr>
+        {% endfor %}
+        <tr class="subheader">
+          <td class="subheader" colspan="4">
+          Topsoils
+          </td>
+        </tr>
+        <tr>
+          <td>
+          {{tableB1['carbstorsoils'].name}}
+          </td>
+          <td>
+          {{tableB1['carbstorsoils'].area  | processNumber}}
+          </td>
+          <td>
+          {{tableB1['carbstorsoils'].total  | processNumber}}
+          </td>
+          <td>
+          {{tableB1['carbstorsoils'].avg  | processNumber}}
+          </td>
+        </tr>
+      </table>
+      {%endif%}

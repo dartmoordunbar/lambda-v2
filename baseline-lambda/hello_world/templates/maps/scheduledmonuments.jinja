@@ -1,0 +1,7 @@
+<section>
+    <h3>{{ getsectionnumber('subsection') }} Scheduled Momuments</h3>
+    <p>Map {{getmapnumber('new')}} shows the location of scheduled monuments within you chosen report area.</p>
+    <img class="map" src="/tmp/monuments.jpg" />
+    {% set message = 'Map ' +  getmapnumber('current') + '.' %}
+    {{label(message,'Location of scheduled monuments')}}
+  </section>

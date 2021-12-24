@@ -1,0 +1,35 @@
+{%if tableB5 %}
+  {% set message = 'Table ' +  gettablenumber('new') + '.' %}
+    {{label(message,'Estimated area of landcover types in the chosen report area that are important for pollination services')}}
+      <table style="width:100%">
+        <tr class="header">
+          <th>Landcover</th>
+          <th>Area of habitat important for pollinating insects of crops (ha)</th>
+          <th>% of total area</th>
+        </tr>
+        {% for item in tableB5['pollination'] %}
+        <tr>
+          <td>
+          {{item.name }}
+          </td>
+          <td>
+          {{item.area | processNumber}}
+          </td>
+          <td>
+          {{item.percent | processNumber}}
+          </td>
+        </tr>
+        {% endfor %}
+        <tr class="subheader">
+          <td class="subheader">
+          Total
+          </td>
+          <td class="subheader">
+            {{ tableB5['pollinationtotal'].area | processNumber }}
+          </td>
+          <td class="subheader">
+           {{ tableB5['pollinationtotal'].percent | processNumber }}
+          </td>
+        </tr>
+      </table>
+    {%endif%}
