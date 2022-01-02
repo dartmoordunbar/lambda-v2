@@ -1133,7 +1133,11 @@ def addColourbar(ax, min, max, title=False, ticks=False, labels=False, steps=Fal
 
 def addBasemap(ax, type='positron'):
     if type == 'sat':
-        basemap = cx.providers.Esri.WorldImagery
+        # basemap = cx.providers.Esri.WorldImagery
+        basemap = cx.providers.MapBox(
+            accessToken="pk.eyJ1IjoibmF0Y2FwcmVzZWFyY2giLCJhIjoiY2t1MnI3cWhhMHhrZjJ2bzE5YTdlcWlmeCJ9.MWUjxmq-3E8V3Rd6J43u6g",
+            id="mapbox/satellite-v9"
+        )    
     else:
         basemap = cx.providers.CartoDB.Positron
     cx.add_basemap(ax, source=basemap, crs="EPSG:27700", zorder=0, alpha=0.8, attribution_size=7)
