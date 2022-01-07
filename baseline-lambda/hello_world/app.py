@@ -8,16 +8,24 @@ from datetime import datetime
 import numpy as np
 from weasyprint import HTML
 from dotenv import load_dotenv
+import gc
 
 s3 = boto3.client('s3')
 ses = boto3.client('ses')
 
-def lambda_handler(event, context):   
+ids = [
+  215
+]
+
+# def lambda_handler(event, context):   
+for id in ids:
+    gc.collect()
+
     load_dotenv()
-    report_id = event["geom_id"]
-    if not report_id:
-        return
-    
+    report_id = id
+    #report_id = event["geom_id"]
+    # if not report_id:
+    #     return
     df_datalist = dataList()
     df_reportdata = reportData(report_id)
     email = df_reportdata["email"][0] 
@@ -45,6 +53,7 @@ def lambda_handler(event, context):
     coverImage(df_reportdata)
 
     df_alldata = mapData(df_datalist, grids, bounds, geom, df_lookup, data_ids)
+
     ## Create Maps
     emtotal = 0
     for map in map_ids:
@@ -356,24 +365,27 @@ def lambda_handler(event, context):
         fp_class_array = fp_data[fp_sub_array[0], fp_sub_array[1]]
         runoff = (np.nansum(fp_class_array) * 25) / 10000
         if i not in woodland_values:
-        #     runoffs.append(0)
-        #     areas.append(0)
-        #     averages.append(0)
-        # else:
+            runoffs.append(0)
+            areas.append(0)
+            averages.append(0)
+        else:
             fp_area = (fp_class_array.shape[0] * 25) / 10000
             #fp_area = (np.count_nonzero(~np.isnan(class_array)) * 25) / 10000
             areas.append(fp_area)
             runoffs.append(runoff)
-            average = runoff/fp_area 
+            average = runoff/fp_area if fp_area != 0 else 0
             averages.append(average)
 
     for i in runoffs:
-        percentages.append((i/sum(runoffs)) * 100)
+        if sum(runoffs) == 0:
+            percentages.append(0)
+        else:
+            percentages.append((i/sum(runoffs)) * 100)
 
     arraylist = list(zip(names, areas, runoffs, averages, percentages))
         
     for i in arraylist:
-        array1.append({"name": i[0], "area": i[1], "total": i[2], "avg": i[2]/i[1], "percent":i[4]})
+        array1.append({"name": i[0], "area": i[1], "total": i[2], "avg": i[3], "percent":i[4]})
     
     avg = 0 if (sum(areas) == 0) else sum(runoffs)/sum(areas)
     table["floodprevention"] = sorted(array1, key = lambda i: i["name"])
@@ -549,39 +561,42 @@ def lambda_handler(event, context):
             return f'<span class="number">{rounded:,}</span>'
 
 
+    s3_name = report_title.replace(' ', '-')
+    s3_name = s3_name.replace('/', '-')
+
     templateEnv.filters["processNumber"] = processNumber
     TEMPLATE_FILE = f'{df_reportdata["template_filename"][0]}.jinja'
     template = templateEnv.get_template(TEMPLATE_FILE)
     outputText = template.render(templateDict)  # this is where to put args to the template renderer
-    HTML(string=outputText, base_url=path).write_pdf(f"/tmp/report.pdf")  
+    HTML(string=outputText, base_url=path).write_pdf(f"/home/jamie/Desktop/finalnts/{report_id}-{s3_name}.pdf")  
 
 
     ### upload report ###
-    s3_name = report_title.replace(' ', '-')
-    s3_name = s3_name.replace('/', '-')
-    s3_key = f"{email}/{report_id}-{s3_name}.pdf"
-    s3.upload_file(f"/tmp/report.pdf", "ncr-baseline-reports", s3_key)
-    s3_url = s3.generate_presigned_url('get_object', Params = {'Bucket': 'ncr-baseline-reports', 'Key': s3_key}, ExpiresIn = 604800)
-    print(s3_url)
-    ses = boto3.client('ses')
-    template_data = {"report_url":s3_url}
-    response = ses.send_templated_email(
-    Source='info@natcapresearch.com',
-    Destination={
-        'ToAddresses': [
-        email
-        ],
-        'BccAddresses': [
-        'jamie.dunbar@natcapresearch.com',
-        ]
-    },
-    ReplyToAddresses=[
-        'info@natcapresearch.com',
-    ],
-    Template='ReportEmail',
-    TemplateData=json.dumps(template_data)
-    )
-    return
+    # s3_name = report_title.replace(' ', '-')
+    # s3_name = s3_name.replace('/', '-')
+    # s3_key = f"{email}/{report_id}-{s3_name}.pdf"
+    # s3.upload_file(f"/tmp/report.pdf", "ncr-baseline-reports", s3_key)
+    # s3_url = s3.generate_presigned_url('get_object', Params = {'Bucket': 'ncr-baseline-reports', 'Key': s3_key}, ExpiresIn = 604800)
+    # print(s3_url)
+    # ses = boto3.client('ses')
+    # template_data = {"report_url":s3_url}
+    # response = ses.send_templated_email(
+    # Source='info@natcapresearch.com',
+    # Destination={
+    #     'ToAddresses': [
+    #     email
+    #     ],
+    #     'BccAddresses': [
+    #     'jamie.dunbar@natcapresearch.com',
+    #     ]
+    # },
+    # ReplyToAddresses=[
+    #     'info@natcapresearch.com',
+    # ],
+    # Template='ReportEmail',
+    # TemplateData=json.dumps(template_data)
+    # )
+    #return
 
 # if __name__ == '__main__':
 #     lambda_handler('','')

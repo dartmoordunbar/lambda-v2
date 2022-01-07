@@ -96,8 +96,8 @@
       <li><a href="#chapter4" class="toctext"> </a> <a href="#chapter4" class="tocpagenr"> </a></li>
       <li><a href="#chapter5" class="toctext"> </a> <a href="#chapter5" class="tocpagenr"> </a></li>
       <li><a href="#chapter6" class="toctext"> </a> <a href="#chapter6" class="tocpagenr"> </a></li>
-      <li><a href="#chapter7" class="toctext"> </a> <a href="#chapter8" class="tocpagenr"> </a></li>
-      <li><a href="#chapter9" class="toctext"> </a> <a href="#chapter9" class="tocpagenr"> </a></li>
+      <li><a href="#chapter7" class="toctext"> </a> <a href="#chapter7" class="tocpagenr"> </a></li>
+      <li><a href="#chapter8" class="toctext"> </a> <a href="#chapter8" class="tocpagenr"> </a></li>
     </ul>
   </section>
   <p style="page-break-before: always"></p>
@@ -209,7 +209,7 @@
       etc.) that provide key ecosystem services underpinning important public goods or benefits (see Figure. 1).</p>
     <p>Within the study area, the extent, quality and location of natural capital stocks were determined and are
       described below.</p>
-
+    <p style="page-break-before: always"></p>
     <h3>{{ getsectionnumber('subsection') }} Landcover of chosen study area</h3>
     <p>Map {{getmapnumber('new')}} shows the the aboveground natural capital assets for your chosen report area, grouped as broad landcover classes. The assets are mapped from numerous data sources - see Section 6 at the end of this report.
     <img class="map" src="/tmp/landcover.jpg" />
@@ -313,7 +313,6 @@
 
 
 
-
   <section>
     <h4>{{ getsectionnumber('subsubsection') }} Carbon storage in topsoil</h4>
     <p>Map {{getmapnumber('new')}} displays the estimated belowground carbon storage in the topsoil (top 30 cm). This is reported from the National Soil Map for Scotland.</p>
@@ -350,7 +349,7 @@
 
   <section>
     <h3>{{ getsectionnumber('subsection') }} Carbon sequestration (or emissions) from peatland</h3>
-    <p>Map {{getmapnumber(new)}} displays the estimated carbon sequestration or emissions from peatlands based on peatland condition (near-natural, drained or actively eroding) according to the Peatland Carbon Code. Drains, haggs, gulleys and bare peat were mapped as part of site-level surveys at selected NTS estates. Peatland condition categories were assigned according to Peatland Carbon Code field guidance v1.1. Note that negative values represent emissions of greenhouse gases.</p>
+    <p>Map {{getmapnumber('new')}} displays the estimated carbon sequestration or emissions from peatlands based on peatland condition (near-natural, drained or actively eroding) according to the Peatland Carbon Code. Drains, haggs, gulleys and bare peat were mapped as part of site-level surveys at selected NTS estates. Peatland condition categories were assigned according to Peatland Carbon Code field guidance v1.1. Note that negative values represent emissions of greenhouse gases.</p>
     <img class="map" src="/tmp/nts-peatemissions.jpg" />
     {% set message = 'Map ' +  getmapnumber('current') + '.' %}
     {{label(message,'Peatland sequestration based on peatland condition (near-natural, drained or actively eroding) in tonnes CO2e per hectare per year. Note that negative values indicate emissions of greenhouse gases')}}
@@ -373,7 +372,7 @@
 
   <section>
     <h3>{{ getsectionnumber('subsection') }} Flood risk reduction</h3>
-    <p>Map {{getmapnumber('new')}} displays areas of land in the chosen report area where the vegetation is important in reducing surface rainfall-runoff and thus reducing the downstream flood risk during a storm event. Our estimations are calculated using a catchment approach, and we model water flows using the semi-distributed hydrological model SWAT. SWAT takes account of soil properties, information on landcover and land management (including crop types), topography (including slope), and meteorological data (including rainfall). The resulting map displays m3 of avoided daily surface runoff per hectare per year at a 25 m resolution.</p>
+    <p>Map {{getmapnumber('new')}} displays areas of land in the chosen report area where the vegetation is important in reducing surface rainfall-runoff and thus reducing the downstream flood risk during a storm event. Our estimations are calculated using a catchment approach, and we model water flows using the semi-distributed hydrological model SWAT. SWAT takes account of soil properties, information on landcover and land management (including crop types), topography (including slope), and meteorological data (including rainfall). The resulting map displays m³ of avoided surface runoff per hectare per year at a 25m resolution.</p>
     <img class="map" src="/tmp/floodrisk.jpg" />
     {% set message = 'Map ' +  getmapnumber('current') + '.' %}
     {{label(message,'Areas of the landscape where vegetation is estimated to be important for flood risk reduction in your chosen report area (average m3 surface runoff avoided per hectare per year)')}}

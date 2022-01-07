@@ -16,6 +16,7 @@ s3 = boto3.client('s3')
 conn = psycopg2.connect("postgres://postgres:S3vgvCA2fQdCccg@pg-1.ctnxr0jdghs2.eu-west-1.rds.amazonaws.com/mapapp")
 
 def coverImage(reportData, lookup=None):
+    return
     bounds = tuple(reportData.total_bounds)
     left,bottom,right,top = bounds
     bounds_width = right-left
@@ -115,21 +116,16 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
         hedgerow_count = np.where(lc_data == 4)
         rows = hedgerow_count[0]
         cols = hedgerow_count[1]
-        data[rows, cols] = 4.0
         codes = np.unique(data[~np.isnan(data)])
         filtered_list = lookup.query('id in @codes & type == "naturenetworks"')
         patches = None
-        if len(filtered_list) == 1:
-            cmap = ListedColormap(['white','#5a00eb'])
-            norm = BoundaryNorm([9999999999, 4], 1)
+        if len(filtered_list) == 0:
+            cmap = ListedColormap(['white'])
+            norm = BoundaryNorm([9999999999,0], 1)
             patches = [
                 Patch(facecolor="white", linewidth=1 ,edgecolor="grey", label="No Data"),
-                Patch(color="#c56d70", label="Hedgerows")
             ]
         ax, cmap, norm = addLegend(ax, filtered_list, ncols=4, patches=patches)
-        if len(filtered_list) == 1:
-            cmap = ListedColormap(['#5a00eb','white',])
-            norm = BoundaryNorm([4.0, 9999999999], 2)
         ax.imshow(data,extent=[bounds[0],bounds[2],bounds[1],bounds[3]],cmap=cmap, norm=norm, zorder=2, alpha=0.9, interpolation='none')
         addBasemap(ax, type='map')
 
@@ -195,34 +191,23 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
 
     if type == 'biocombined':
         distinctiveness = allData.loc['distinctiveness']['data']
-        sssi = allData.loc['sssi']['data']
+        distinctiveness[distinctiveness == np.nan] = 1
+        
+        sssi = allData.loc['sssi']['data'] 
+        sssi[sssi == np.nan] = 1
+
         vulnspecies = allData.loc['vulnspecies']['data']
+        vulnspecies[vulnspecies == np.nan] = 1
+
         connectivity = allData.loc['connectivity']['data']
-        lochwater = allData.loc['lochwater']['data']
-        combined = []
-        for iy, ix in np.ndindex(distinctiveness.shape):
-            prod = []
-            value = distinctiveness[iy, ix]
-            if not np.isnan(value):
-                prod.append(value)
-            value = sssi[iy, ix]
-            if not np.isnan(value):
-                prod.append(value)
-            value = vulnspecies[iy, ix]
-            if not np.isnan(value):
-                prod.append(value)
-            value = lochwater[iy, ix]
-            if not np.isnan(value):
-                prod.append(value)
-            value = connectivity[iy, ix]
-            if not np.isnan(value):
-                prod.append(value)
-            if len(prod) == 0:
-                combined[iy, ix] = np.nan
-            else:
-                combined[iy, ix] = np.prod(prod)
-        #biocombined = distinctiveness * sssi * vulnspecies * connectivity * lochwater
-        im = ax.imshow(combined,extent=[bounds[0],bounds[2],bounds[1],bounds[3]],zorder=2, cmap='viridis_r', alpha=0.9, interpolation='none')
+        connectivity[connectivity == np.nan] = 1
+
+        lochwater = allData.loc['lochwater']['data'] * 2
+        lochwater[lochwater == np.nan] = 1
+
+        biocombined = distinctiveness * sssi * vulnspecies * connectivity * lochwater
+        
+        im = ax.imshow(biocombined,extent=[bounds[0],bounds[2],bounds[1],bounds[3]],zorder=2, cmap='viridis_r', alpha=0.9, interpolation='none')
         addColourbar(ax,0,100,ticks=[0,100], labels=['Low','High'])
         addBasemap(ax, type='map')
 
@@ -308,7 +293,7 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
     
 
     if type == 'studyarea':
-        addBasemap(ax, type='sat')
+        addBasemap(ax, type="sat")
 
     
 
@@ -320,24 +305,30 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
         cstorenw_data = allData.loc['carbonstoragenonwoodlands'].data
         cstorenw_data[np.isnan(cstorenw_data)] = 0
         carbonstore_total = cstorew_data + cstorenw_data + cstores_data
-        carbonstore_total[carbonstore_total < 0] = np.nan
-        carbonstore_max = np.nanmax(carbonstore_total) 
-        carbonstore_std = carbonstore_total/carbonstore_max    ### carbon seq ###
+        carbonstore_max = np.nanmax(carbonstore_total)
+        if carbonstore_max == 0:
+            carbonstore_std = 0
+        else:
+            carbonstore_std = carbonstore_total/carbonstore_max    ### carbon seq ###
         cseqw_data = allData.loc['carbonseqwoodlands'].data
         cseqw_data[np.isnan(cseqw_data)] = 0
         cseqnw_data = allData.loc['carbonseqnonwoodlands'].data
         cseqnw_data[np.isnan(cseqnw_data)] = 0
         carbonseq_total = cseqw_data + cseqnw_data
-        carbonseq_total[carbonseq_total < 0] = 0
-        carbonseq_max = np.max(carbonseq_total) 
-        carbonseq_std = carbonseq_total/carbonseq_max
+        carbonseq_max = np.nanmax(carbonseq_total) 
+        if carbonseq_max == 0:
+            carbonseq_std = 0
+        else:
+            carbonseq_std = carbonseq_total/carbonseq_max
         se_data = allData.loc['soilerosion'].data
         se_data[np.isnan(se_data)] = 0
         erosion_max = np.max(se_data)
+        print("soil e", erosion_max)
         erosion_final = se_data/erosion_max
         fp_data = allData.loc['floodrisk'].data
         fp_data[np.isnan(fp_data)] = 0
         flood_max = np.max(fp_data)
+        print("flood p", flood_max)
         if flood_max == 0:
             flood_final = 0
         else: 
@@ -345,6 +336,7 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
         rec_data = allData.loc['recreation'].data
         rec_data[np.isnan(rec_data)] = 0
         recreation_max = np.nanmax(rec_data)
+        print("rec max", recreation_max)
         if recreation_max == 0:
             recreation_final = 0
         else:
@@ -352,6 +344,7 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
         pol_data = allData.loc['pollination'].data
         pol_data[np.isnan(pol_data)] = 0
         pollination_max = np.max(pol_data) 
+        print("pol max", pollination_max)
         if pollination_max == 0:
             pollination_final = 0
         else:
@@ -362,14 +355,16 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
         nn_data = allData.loc['naturenetworks'].data
         nn_data[np.isnan(nn_data)] = 0
         connectivity_max = np.max(nn_data) 
+        print("conn max", connectivity_max)
         if connectivity_max == 0:
             connectivity_final = 0
         else:
             connectivity_final = nn_data/connectivity_max
+        
         map_array = carbonstore_std + carbonseq_std + biodiversity_final + pollination_final + connectivity_final + flood_final + erosion_final + recreation_final
         map_array[map_array <= 0] = np.nan
         addColourbar(ax,0,8, ticks=[0,8], labels=['Low','High'],cmaptype="viridis_r")
-        im = ax.imshow(map_array ,extent=[bounds[0],bounds[2],bounds[1],bounds[3]], cmap='viridis_r',zorder=2, alpha=0.9)
+        im = ax.imshow(map_array, extent=[bounds[0],bounds[2],bounds[1],bounds[3]], cmap='viridis_r',zorder=2, alpha=0.9)
         addBasemap(ax, type='map')
 
     ############################################
@@ -408,7 +403,7 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
 
     if type == 'scotwaterquality':
         data = getScotWaterquality(geom_id)
-        ecodata = data.dissolve(by='eco_class_')
+        ecodata = data.dissolve(by='ov_class20')
         waterPalette = {
             'Bad': '#FF0000',
             'Good': '#0000FF',
@@ -418,7 +413,7 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
             'Poor': '#FFA500'
         }
         patches = []
-        for ctype, data in ecodata.groupby('eco_class_'):
+        for ctype, data in ecodata.groupby('ov_class20'):
             color = waterPalette[ctype]
             patches.append(
                 Patch(facecolor=color, linewidth=1 ,edgecolor="grey", label=ctype)
@@ -435,9 +430,12 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
         addBasemap(ax, type='map')
 
 
+
+
+
     if type == 'waterquality_eco':
         data = getWaterquality(geom_id)
-        ecodata = data.dissolve(by='eco_class')
+        ecodata = data.dissolve(by='eco_class_')
         waterPalette = {
             'Bad': '#FF0000',
             'Good': '#0000FF',
@@ -447,7 +445,7 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
             'Poor': '#FFA500'
         }
         patches = []
-        for ctype, data in ecodata.groupby('eco_class'):
+        for ctype, data in ecodata.groupby('eco_class_'):
             color = waterPalette[ctype]
             patches.append(
                 Patch(facecolor=color, linewidth=1 ,edgecolor="grey", label=ctype)
@@ -748,7 +746,7 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
             from "data-worldheritagesites" 
             where ST_intersects(geom,(select geom from aoi_client ac where id = {geom_id} ))
             union
-            select ST_intersection(geom,(select geom from aoi_client ac where id = {geom_id} )) as geom, 'Gardens/Designed Landcapes' as name
+            select ST_union(ST_intersection(geom,(select geom from aoi_client ac where id = {geom_id} ))) as geom, 'Gardens and Designed Landcapes' as name
             from "data-gardensdesignedlandscapes" 
             where ST_intersects(geom,(select geom from aoi_client ac where id = {geom_id} ))
             union
@@ -764,7 +762,7 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
             'National Parks': ["#9BB460",'#9BB460',None,"-"],
             'National Scenic Areas': ["none",'#aaaaac',"XXXX","solid"],
             'World Heritage Sites': ["#1f1f1f",'#1f1f1f',None,"solid"],
-            'Gardens/Designed Landcapes': ["#ead272",'#ead272',None,"solid"],
+            'Gardens and Designed Landcapes': ["#ead272",'#ead272',None,"solid"],
             'Wild Areas': ["#ead272",'#ead272',None,"solid"],
         }
         patches = []
@@ -998,12 +996,14 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
             'PEAT':['Peat','#8B4477'],
             'PTYGLEY':['Peaty gleys','#80BD52'],
             'PTYPODZ':['Peaty podzols','#EB504E'],
+            'none':['Unsurveyed/urban','#C7C7C7'],
         }
         alpha = 0.4
         patches = []
         return_data = []
         mpl.rcParams['hatch.linewidth'] = 0.3
         for ctype, data in df.groupby('mapsymb13'):
+            print(ctype)
             facecolour = mpl.colors.to_rgba(palette[ctype][1], alpha=alpha)
             label = palette[ctype][0]
             patches.append(
@@ -1031,10 +1031,10 @@ def getMap(reportData, allData, lookup, type, format='jpg'):
     plt.savefig(f'/tmp/{type}.{format}', format=format, bbox_inches='tight', dpi=dpi)
     email = reportData['email'][0]
     report_title = reportData['name'][0]
-    s3_name = report_title.replace(' ', '-')
-    s3_name = s3_name.replace('/', '-')
-    s3_key = f"{email}/{s3_name}/images/{type}.{format}"
-    s3.upload_file(f"/tmp/{type}.{format}", "ncr-baseline-reports", s3_key)
+    # s3_name = report_title.replace(' ', '-')
+    # s3_name = s3_name.replace('/', '-')
+    # s3_key = f"{email}/{s3_name}/images/{type}.{format}"
+    # s3.upload_file(f"/tmp/{type}.{format}", "ncr-baseline-reports", s3_key)
     plt.close()
     return return_data
 
@@ -1133,11 +1133,28 @@ def addColourbar(ax, min, max, title=False, ticks=False, labels=False, steps=Fal
 
 def addBasemap(ax, type='positron'):
     if type == 'sat':
-        # basemap = cx.providers.Esri.WorldImagery
-        basemap = cx.providers.MapBox(
-            accessToken="pk.eyJ1IjoibmF0Y2FwcmVzZWFyY2giLCJhIjoiY2t1MnI3cWhhMHhrZjJ2bzE5YTdlcWlmeCJ9.MWUjxmq-3E8V3Rd6J43u6g",
-            id="mapbox/satellite-v9"
-        )    
+        try:
+            basemap = cx.providers.CartoDB.Positron
+
+            # basemap = cx.providers.HEREv3.satelliteDay(
+            #     apiKey = "fC3OpINy4-NCz1tMQbCLniX_OrmFNi5nKSkfvdIuib8"
+            #     # app_id = "8Q2spHGFusB4UCnyo3kv"
+            # )
+        except:
+            basemap = cx.providers.CartoDB.Positron
+
+        # )
+        #     apiKey="2kJENcfMh4_RjpTWoUuglsLJHNWZI4uOrYTZxahtqqw",
+        #     type="maptile",
+        #     mapID="newest",
+        #     base="aerial",
+        #     variant="satellite.day"
+        # )
+        # basemap = cx.providers.MapBox(
+        #         accessToken="pk.eyJ1IjoibmF0Y2FwcmVzZWFyY2giLCJhIjoiY2t1MnI3cWhhMHhrZjJ2bzE5YTdlcWlmeCJ9.MWUjxmq-3E8V3Rd6J43u6g",
+        #         id="mapbox/satellite-v9"
+        #     )
+        
     else:
         basemap = cx.providers.CartoDB.Positron
     cx.add_basemap(ax, source=basemap, crs="EPSG:27700", zorder=0, alpha=0.8, attribution_size=7)
