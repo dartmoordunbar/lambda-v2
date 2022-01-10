@@ -13,13 +13,13 @@ import gc
 s3 = boto3.client('s3')
 ses = boto3.client('ses')
 
-ids = [
-  215
-]
+ids = [243]
+
 
 # def lambda_handler(event, context):   
 for id in ids:
-    gc.collect()
+    
+    
 
     load_dotenv()
     report_id = id
@@ -123,6 +123,7 @@ for id in ids:
     table = {}
     lc_data = df_alldata.loc["landcover"].data
     lc_values, lc_counts = np.unique(lc_data[~np.isnan(lc_data)], return_counts=True)
+    print(lc_values)
     for count, i in enumerate(lc_values):
         lc_area = (lc_counts[count] * 25 )/ 10000
         lc_total_area = lc_total_area + lc_area

@@ -203,6 +203,8 @@ def mapData(df_datalist, grids, bounds, geom, lookup, data_list):
                     for lcindex, lcrow in df.iterrows():
                         masked_data[np.isin(masked_data, lcrow["codes"])] = int(lcrow["id"])
                     codes, counts = np.unique(masked_data[~np.isnan(masked_data)], return_counts=True)
+                    masked_data[masked_data <= 0] = np.nan
+                    print(codes)
                     filtered = df.query('id in @codes')
                     names = filtered['name'].tolist()
                     colours = filtered['colour'].tolist()
